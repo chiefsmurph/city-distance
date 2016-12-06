@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Cities distance</title>
+  <Style>
+  #nearbyCitiesView {
+    display: none;
+  }
+  </style>
+</head>
+<body>
+
+  <h1>Select A City</h1>
+  <b>City, State</b>
+  <form>
+    <input type="text" id="nearCity" />
+    <ul id="citiesList"></ul>
+  </form>
+
+  <div id="nearbyCitiesView">
+    <h1>Nearby Cities</h1>
+    <ul id="nearbyCities"></ul>
+  </div>
+
+    <!-- javascript includes -->
+    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script>
+    var cities;
+    var socket = io.connect(window.location.hostname + ":" + window.location.port);
+    socket.on('')
+
+    $('#nearCity').on('change', function() {
+      var val = $(this).val();
+      socket.emit('findCities', val);
+    });
+
+    socket.on('citySearchResults', function(data) {
+      console.log(data);
+      cities = data;
+      renderListOfCities(data);
+    });
+
+
+    function renderListOfCities(cities) {
+      var $el = $('#citiesList');
+      $el.empty();
+      cities.forEach(function(city) {
+        $el.append('<li>' + city.name + ', ' + city.adminCode + '</li>')
+      });
+    }
+
+    var selectedCity = '';
+    $('#citiesList').on('click', 'li', function() {
+      selectedCity = cities[$(this).index()];
+      socket.emit('citiesNearby', selectedCity);
+    });
+
+    socket.on('citiesNearbyResults', function(nearbyCities) {
+      console.log(nearbyCities);
+      var $el = $('#nearbyCities');
+      $el.empty();
+      nearbyCities.forEach(function(city) {
+        $el.append('<li>' + city.cityname + ' (lat: ' + city.lat + ', long: ' + city.long + ')</li>')
+      });
+      $('#nearbyCitiesView').show();
+    });
+
+    </script>
+</body>
+</html>

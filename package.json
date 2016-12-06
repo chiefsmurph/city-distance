@@ -1,0 +1,29 @@
+{
+  "name": "city-distance",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiefsmurph/city-distance.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chiefsmurph/city-distance/issues"
+  },
+  "homepage": "https://github.com/chiefsmurph/city-distance#readme",
+  "dependencies": {
+    "all-the-cities": "^1.0.0",
+    "async": "^2.1.4",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "pg": "^6.1.0",
+    "socket.io": "^1.7.1"
+  }
+}
